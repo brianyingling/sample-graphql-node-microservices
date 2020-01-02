@@ -1,2 +1,4 @@
 node_moduless
 */node_modules
+classifier-app/.cache
+classifier-app/dist

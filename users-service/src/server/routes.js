@@ -1,10 +1,49 @@
-import { User } from '#root/db/models';
+import { addHours } from 'date-fns';
+import { User, UserSession } from '#root/db/models';
 import generateUUID from '#root/helpers/generateUUID';
 import hashPassword from '#root/helpers/hashPassword';
+import passwordCompareSync from '../helpers/passwordCompareSync';
+
+const USER_SESSION_EXPIRY_HOURS = 1;
 
 const setupRoutes = app => {
+    app.post('/sessions', async (req, res, next) => {
+        console.log('BODY:', req.body);
+        if (!req.body.email || !req.body.password) {
+            return next(new Error('Invalid body!'));
+        }
+        try {
+            const user = await User.findOne({ attributes: {}, where: {
+                email: req.body.email
+            }});
+
+            if (!user) {
+                return next(new Error("Invalid email"));
+            }
+            
+            console.log('USER:', user.passwordHash);
+            console.log('user id:', user.id);
+            if (!passwordCompareSync(req.body.password, user.passwordHash)) {
+                return next(new Error("Incorrect password"));
+            }
+
+            const expiresAt = addHours(new Date(), USER_SESSION_EXPIRY_HOURS);
+
+            const sessionToken = generateUUID();
+
+            const userSession = await UserSession.create({
+                expiresAt,
+                id: sessionToken,
+                userId: user.id
+            })
+            return res.json(userSession);
+
+        } catch(e) {
+            return next(e);
+        }
+        
+    });
     app.post('/users', async (req, res, next) => {
-        console.log('post users');
         if (!req.body.email || !req.body.password) {
             return next(new Error('Invalid body!'));
         }
@@ -16,7 +55,7 @@ const setupRoutes = app => {
             });
             return res.json(newUser);
         } catch(e) {
-            console.log('e:',e);
+            console.error('e:',e);
             return next(e);
         }
     })
