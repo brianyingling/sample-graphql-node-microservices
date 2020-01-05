@@ -7,8 +7,19 @@ import passwordCompareSync from '../helpers/passwordCompareSync';
 const USER_SESSION_EXPIRY_HOURS = 1;
 
 const setupRoutes = app => {
+    app.get('/sessions/:sessionId', async (req, res, next) => {
+        try {
+            const userSession = await UserSession.findByPk(req.params.sessionId);
+            if (!userSession) {
+                return next(new Error("Invalid Session ID"));
+            } 
+            return res.json(userSession)
+        } catch (e) {
+            return next(e);
+        }
+    });
+
     app.post('/sessions', async (req, res, next) => {
-        console.log('BODY:', req.body);
         if (!req.body.email || !req.body.password) {
             return next(new Error('Invalid body!'));
         }
@@ -21,8 +32,6 @@ const setupRoutes = app => {
                 return next(new Error("Invalid email"));
             }
             
-            console.log('USER:', user.passwordHash);
-            console.log('user id:', user.id);
             if (!passwordCompareSync(req.body.password, user.passwordHash)) {
                 return next(new Error("Incorrect password"));
             }
@@ -58,7 +67,18 @@ const setupRoutes = app => {
             console.error('e:',e);
             return next(e);
         }
-    })
+    });
+
+    app.get('/users/:userId', async (req, res, next) => {
+        try {
+            const user = await User.findByPk(req.params.userId);
+            if (!user)
+                return next(new Error("Invalid user ID!"));
+            return res.json(user);
+        } catch(e) {
+            return next(e);
+        }
+    });
 }
 
 export default setupRoutes;

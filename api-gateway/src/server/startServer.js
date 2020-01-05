@@ -6,6 +6,7 @@ import accessEnv from '#root/helpers/accessEnv';
 import resolvers from '#root/graphql/resolvers';
 import typeDefs from '#root/graphql/typeDefs';
 import formatGraphQLErrors from './formatGraphQLErrors';
+import injectSession from './injectSession';
 
 const PORT = accessEnv("PORT", 7000);
 
@@ -26,6 +27,8 @@ app.use(
         credentials: true
     })
 );
+
+app.use(injectSession);
 
 apolloServer.applyMiddleware({
     app, 
