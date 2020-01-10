@@ -1,6 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { clearSession } from '#root/store/ducks/session';
 
 const Email = styled.div`
     color: ${props => props.theme.nero};
@@ -8,17 +11,37 @@ const Email = styled.div`
     margin-top: 0.25rem;
 `;
 
+const LogoutLink = styled.a.attrs( { href: '#'})`
+    color: ${props => props.theme.mortar};
+    font-size: 0.9rem;
+`;
+
 const Wrapper = styled.div`
     color: ${props => props.theme.mortar};
     font-size: 0.9rem; 
 `;
 
+const mutation = gql`
+    mutation($sessionId: ID!) {
+        deleteUserSession(sessionId: $sessionId) 
+    }
+`;
+
 const Account = () => {
+    const dispatch = useDispatch();
+    const [deleteUserSession] = useMutation(mutation);
     const session = useSelector(state => state.session);
-    console.log('SESSION:', session);
     return (
         <Wrapper>
             Logged in as <Email>{session.user.email}</Email>
+            <LogoutLink 
+                onClick={evt => {
+                    evt.preventDefault();
+                    dispatch(clearSession());
+                    deleteUserSession({ variables: { sessionId: session.id}})
+                }}>
+                (Logout)
+            </LogoutLink>
         </Wrapper>
     );
 }
