@@ -3,34 +3,14 @@ import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
-import Textarea from '#root/components/Shared/Textarea';
-import TextInput from '#root/components/Shared/TextInput';
-
-const Button = styled.button`
-    display: inline-block;
-    margin-top: 0.5rem;
-
-`;
-
-const Form = styled.form`
-    background-color: ${props => props.theme.whiteSmoke};
-    margin-top: 1rem;
-    padding: 1rem;
-`;
-
-const Label = styled.label`
-    display: block;
-    :not(:first-child) {
-        margin-top: 0.5rem;
-    }
-`;
-
-const LabelText = styled.strong`
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-`;
+import Title from './Title';
+import Description from './Description';
+import {
+    Button,
+    Form,
+    Label,
+    LabelText
+} from './styles';
 
 const mutation = gql`
     mutation($description: String!, $title: String!) {
@@ -62,24 +42,14 @@ const AddListing = ({ onAddListing: pushAddListing}) => {
 
     return (
         <Form onSubmit={onSubmit}>
-            <Label>
-                <LabelText>Title</LabelText>
-                <TextInput
-                    disabled={isSubmitting}
-                    name="title"
-                    ref={register}
-                    type="text"
-                />
-            </Label>
-            <Label>
-                <LabelText>Description</LabelText>
-                <Textarea
-                    disabled={isSubmitting}
-                    name="description"
-                    ref={register}
-                    type="text"
-                />
-            </Label>
+            <Title 
+                isSubmitting={isSubmitting}
+                register={register}
+            />
+            <Description 
+                isSubmitting={isSubmitting}
+                register={register}
+            />
             <Button 
                 disabled={isSubmitting} 
                 type="submit"
