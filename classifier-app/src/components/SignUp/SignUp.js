@@ -67,6 +67,12 @@ const SignUp = ({ onChangeToLogin: pushChangeToLogin }) => {
         reset();
         pushChangeToLogin();
     });
+
+    const onLoginClick = evt => {
+        evt.preventDefault();
+        pushChangeToLogin();
+    }
+    
     return (
         <form onSubmit={onSubmit}>
             <label>
@@ -96,7 +102,6 @@ const SignUp = ({ onChangeToLogin: pushChangeToLogin }) => {
                     ref={register}
                 />
             </label>
-            
             <SignUpButton 
                 disabled={isSubmitting || !isValid} 
                 type="submit"
@@ -105,12 +110,7 @@ const SignUp = ({ onChangeToLogin: pushChangeToLogin }) => {
             </SignUpButton>
             Or {" "}
             <OrLogin>
-                <a href="#" onClick={
-                    evt => {
-                        evt.preventDefault();
-                        pushChangeToLogin();
-                    }
-                }>
+                <a href="#" onClick={onLoginClick}>
                     Login
                 </a>
             </OrLogin>
