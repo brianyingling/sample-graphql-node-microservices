@@ -37,7 +37,7 @@ const Listings = () => {
         return "Loading...";
     return (
         <div>
-            {data.listings.map(listing => (
+            {data && data.listings.map(listing => (
                 <Listing key={listing.id}>
                     <Title>{listing.title}</Title>
                     <Description>{listing.description}</Description>

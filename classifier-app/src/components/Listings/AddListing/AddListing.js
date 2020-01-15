@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useForm } from 'react-hook-form';
+import { CREATE_LISTING } from './mutations';
 import Title from './Title';
 import Description from './Description';
 import {
@@ -12,16 +13,8 @@ import {
     LabelText
 } from './styles';
 
-const mutation = gql`
-    mutation($description: String!, $title: String!) {
-        createListing(description: $description, title: $title) {
-            id
-        }
-    }
-`;
-
 const AddListing = ({ onAddListing: pushAddListing}) => {
-    const [createListing] = useMutation(mutation);
+    const [createListing] = useMutation(CREATE_LISTING);
     const {
         formState: { isSubmitting},
         handleSubmit,

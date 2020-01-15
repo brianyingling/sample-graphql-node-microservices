@@ -1,4 +1,8 @@
 node_moduless
 */node_modules
+terraform/.terraform
+terraform/terraform.tfvars
+terraform/microservices_demo.key
+terraform/microservices_demo.pem
 classifier-app/.cache
 classifier-app/dist
