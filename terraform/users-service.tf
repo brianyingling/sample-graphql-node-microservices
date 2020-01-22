@@ -5,6 +5,7 @@ resource "aws_eip" "users-service-eip" {
 module "users-service" {
   source = "./node-server"
   ami-id = "ami-02ccb28830b645a41"
+  iam-instance-profile = module.users-service-codedeploy.iam-instance-profile
   key-pair = aws_key_pair.microservices-demo-key.key_name
   name = "users-service"
   private-ip = "10.0.1.6"
@@ -26,5 +27,11 @@ module "users-service-db" {
     publicly-accessible = false
     username = var.users-service-db-username
     vpc-security-group-ids = [aws_security_group.allow-internal-mysql.id]
+}
+
+module "users-service-codedeploy" {
+    source = "./codedeploy-app"
+    app-name = "users-service"
+    ec2-instance-name = "module.users-service-name"    
 }
 
