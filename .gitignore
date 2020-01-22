@@ -4,5 +4,7 @@ terraform/.terraform
 terraform/terraform.tfvars
 terraform/microservices_demo.key
 terraform/microservices_demo.pem
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
 classifier-app/.cache
 classifier-app/dist

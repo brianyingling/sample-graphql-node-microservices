@@ -1,8 +1,7 @@
 module.exports = {
     plugins: [
         [
-            "module-resolver",
-            {
+            "module-resolver", {
                 alias: {
                     '#root': "./src"
                 }
@@ -11,8 +10,7 @@ module.exports = {
     ],
     presets: [
         [
-            "@babel/preset-env",
-            {
+            "@babel/preset-env", {
                 targets: {
                     node: 'current'
                 }
