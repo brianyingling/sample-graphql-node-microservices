@@ -1,7 +1,11 @@
 */node_modules
+*/.deploy.env
+*/.env
+*/.production.env
 api-gateway/dist
 classifier-app/.cache
 classifier-app/dist
+classifier-app/.env
 listings-service/dist
 terraform/.terraform
 terraform/terraform.tfvars

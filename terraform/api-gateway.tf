@@ -19,6 +19,6 @@ module "api-gateway" {
 module "api-gateway-codedeploy" {
     source = "./codedeploy-app"
     app-name = "api-gateway"
-    ec2-instance-name = "module.api-gateway-name"    
+    ec2-instance-name = module.api-gateway.name 
 }
 

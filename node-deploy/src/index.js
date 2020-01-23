@@ -9,7 +9,7 @@ const util = require('util');
 const deploymentDir = process.argv[2];
 const deploymentDirName = path.basename(deploymentDir);
 
-const rel = relPath => path.resolve(deploymentDirName, relPath);
+const rel = relPath => path.resolve(deploymentDir, relPath);
 
 const tfFilePath = rel('../terraform/terraform.tfstate');
 
@@ -19,7 +19,7 @@ if (!fs.existsSync(tfFilePath)) {
 
 const { outputs } = JSON.parse(fs.readFileSync(tfFilePath, "utf-8"));
 
-require('dotenv').config({ path: rel("./.deploy.env")});
+require('dotenv').config({ path: rel(".deploy.env")});
 
 const accessEnv = require('./helpers/accessEnv');
 
@@ -61,7 +61,7 @@ const rootDir = rel('../');
     }
 
     console.log('creating lockfile...');
-    fs.writeFileSync(lockFileFath, "This stops node-deploy from running currently. Remove if node-deploy complains");
+    fs.writeFileSync(lockFilePath, "This stops node-deploy from running currently. Remove if node-deploy complains");
 
     console.log('checking environment...');
     if (!fs.existsSync('.production.env')) {

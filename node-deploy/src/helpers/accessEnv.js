@@ -18,4 +18,4 @@ const accessEnv = (key, defaultValue) => {
     return cache[key];
 }
 
-export default accessEnv;
+module.exports = accessEnv;

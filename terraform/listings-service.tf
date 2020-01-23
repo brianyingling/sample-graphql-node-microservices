@@ -32,6 +32,6 @@ module "listings-service-db" {
 module "listings-service-codedeploy" {
     source = "./codedeploy-app"
     app-name = "listings-service"
-    ec2-instance-name = "module.listings-service-name"    
+    ec2-instance-name = module.listings-service.name  
 }
 

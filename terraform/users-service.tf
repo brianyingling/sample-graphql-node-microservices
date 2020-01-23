@@ -32,6 +32,6 @@ module "users-service-db" {
 module "users-service-codedeploy" {
     source = "./codedeploy-app"
     app-name = "users-service"
-    ec2-instance-name = "module.users-service-name"    
+    ec2-instance-name = module.users-service.name
 }
 
