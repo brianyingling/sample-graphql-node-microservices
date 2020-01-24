@@ -3,9 +3,10 @@
 */.env
 */.production.env
 api-gateway/dist
-classifier-app/.cache
-classifier-app/dist
-classifier-app/.env
+classifieds-app/.cache
+classifieds-app/dist
+classifieds-app/deploy.sh
+classifieds-app/.env
 listings-service/dist
 terraform/.terraform
 terraform/terraform.tfvars
